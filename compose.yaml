@@ -1,0 +1,53 @@
+version: "3.8"
+
+services:
+  mysql:
+    image: mysql:latest
+    container_name: mysql
+    ports:
+      - 3306:3306
+    volumes:
+      - mysql_data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: Legodesk
+      MYSQL_USER: legodesk
+      MYSQL_PASSWORD: legodesk
+    networks:
+      - dev_network
+
+  keycloak:
+    depends_on:
+      - mysql
+      - mailhog
+    image: quay.io/keycloak/keycloak:24.0.4
+    container_name: keycloak
+    command: start-dev
+    ports:
+      - 8080:8080
+    environment:
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+      KC_DB: mysql
+      KC_DB_URL: jdbc:mysql://mysql:3306/Legodesk
+      KC_DB_USERNAME: legodesk
+      KC_DB_PASSWORD: legodesk
+    networks:
+      - dev_network
+
+  mailhog:
+    image: mailhog/mailhog
+    container_name: mailhog
+    logging:
+      driver: "none" # disable saving logs
+    ports:
+      - 1025:1025 # smtp server
+      - 8025:8025 # web ui
+    networks:
+      - dev_network
+
+networks:
+  dev_network:
+
+volumes:
+  mysql_data:
