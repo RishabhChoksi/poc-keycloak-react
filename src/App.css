@@ -2,18 +2,13 @@
   text-align: center;
 }
 
-Button {
-  margin: 0.5rem;
-  padding: 0.5rem;
-  border: none;
-  border-radius: 5px;
-  background-color: purple;
-  color: white;
-}
-
 .card {
   max-width: 65%;
   margin: auto;
   border: 1px solid purple;
   padding: 1rem;
+}
+
+hr {
+  border-color: purple;
 }

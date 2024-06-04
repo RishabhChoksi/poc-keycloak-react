@@ -4,6 +4,7 @@ import { Button } from "primereact/button";
 import { Card } from "primereact/card";
 
 import Keycloak from "keycloak-js";
+import RoleCheck from "./RoleCheck";
 
 let initOptions = {
   url: "http://localhost:8080/",
@@ -48,7 +49,7 @@ function App() {
     <div className="App">
       {/* <Auth /> */}
       <div>
-        <h1>My Awesome React App</h1>
+        <h1>Role Based Access Control- Keycloak</h1>
         <h1>Secured with Keycloak</h1>
       </div>
       <div>
@@ -93,7 +94,7 @@ function App() {
           />
           <Button
             onClick={() => {
-              kc.updateToken(10).then(
+              kc.updateToken(1000).then(
                 (refreshed) => {
                   setInfoMessage("Token Refreshed: " + refreshed.toString());
                 },
@@ -121,8 +122,41 @@ function App() {
             <p style={{ wordBreak: "break-all" }} id="infoPanel">
               {infoMessage}
             </p>
-          </Card>{" "}
+          </Card>
         </div>
+      </div>
+      <hr />
+      <div className="roleCheck">
+        <RoleCheck
+          url={"/users/manage"}
+          label="Hit /users/manage"
+          token={kc.token}
+        />
+        <RoleCheck
+          url={"/loans/manage"}
+          label="Hit /loans/manage"
+          token={kc.token}
+        />
+        <RoleCheck
+          url={"/contacts/manage"}
+          label="Hit /contacts/manage"
+          token={kc.token}
+        />
+        <RoleCheck
+          url={"/campaigns/manage"}
+          label="Hit /campaigns/manage"
+          token={kc.token}
+        />
+        <RoleCheck
+          url={"/roles/manage"}
+          label="Hit /roles/manage"
+          token={kc.token}
+        />
+        <RoleCheck
+          url={"/settings/manage"}
+          label="Hit /settings/manage"
+          token={kc.token}
+        />
       </div>
     </div>
   );

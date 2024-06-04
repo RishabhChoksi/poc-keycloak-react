@@ -46,6 +46,26 @@ services:
     networks:
       - dev_network
 
+  frontend:
+    depends_on:
+      - keycloak
+    image: rishabhchoksi998/oauth2-frontend-keycloak-poc:v1
+    container_name: frontend
+    ports:
+      - 3000:3000
+    networks:
+      - dev_network
+
+  backend:
+    depends_on:
+      - keycloak
+    image: rishabhchoksi998/oauth2-backend-poc:v1
+    container_name: backend
+    ports:
+      - 8081:8081
+    networks:
+      - dev_network
+
 networks:
   dev_network:
 
